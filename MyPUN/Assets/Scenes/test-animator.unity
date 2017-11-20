@@ -4658,7 +4658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1653111529
 Animator:
   serializedVersion: 3
@@ -5932,7 +5932,7 @@ MonoBehaviour:
     XY: 0
     bones:
     - transform: {fileID: 787984517}
-      weight: 0.504
+      weight: 0.306
       solverPosition: {x: 0, y: 0, z: 0}
       solverRotation: {x: 0, y: 0, z: 0, w: 0}
       defaultLocalPosition: {x: 0.000000019484096, y: 0.1172419, z: 1.3518631e-15}
@@ -5942,7 +5942,7 @@ MonoBehaviour:
       sqrMag: 0
       axis: {x: 0, y: 0, z: 0}
     - transform: {fileID: 732089477}
-      weight: 0.712
+      weight: 0.524
       solverPosition: {x: 0, y: 0, z: 0}
       solverRotation: {x: 0, y: 0, z: 0, w: 0}
       defaultLocalPosition: {x: -0.0000000055014895, y: 0.21435943, z: 0.0039671953}
@@ -5952,7 +5952,7 @@ MonoBehaviour:
       sqrMag: 0
       axis: {x: 0, y: 0, z: 0}
     - transform: {fileID: 1087745332}
-      weight: 1
+      weight: 0.734
       solverPosition: {x: 0, y: 0, z: 0}
       solverRotation: {x: 0, y: 0, z: 0, w: 0}
       defaultLocalPosition: {x: 0.00000011290042, y: 0.24268691, z: 0.0013742375}

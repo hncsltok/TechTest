@@ -26,6 +26,7 @@ public class ActorActionManager : MonoBehaviour {
         aimIK = GetComponent<AimIK>();
         animator = GetComponent<Animator>();
 
+
         lastPosition = transform.position;
 
         if (!offlineMode)
@@ -96,21 +97,21 @@ public class ActorActionManager : MonoBehaviour {
             float horizontalAngle= Quaternion.Angle( transform.rotation, targetDirection);
 
 
-            float LR= Vector3.Cross(transform.forward, hitInfo.point).y;
-            if (LR < 0)
+            if (Vector3.Cross(transform.forward, temp.normalized).y < 0)
                 horizontalAngle = -horizontalAngle;
 
             animator.SetFloat("HorizontalAngle", horizontalAngle);
 
 
             
-           
-            Debug.Log(horizontalAngle);
-            
-             //   characterController.transform.rotation = targetDirection;
+            //characterController.transform.rotation = Quaternion.Lerp(characterController.transform.rotation, targetDirection,0.1f) ;
         }
 
     }
+
+
+
+
 
     private Vector3 lastAimPoint=Vector3.zero;
     private void ControlAim()
