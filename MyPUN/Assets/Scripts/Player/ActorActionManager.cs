@@ -11,7 +11,10 @@ public class ActorActionManager : MonoBehaviour {
 
 
     private bool controllable;
-    private Vector3 lastPosition;
+
+    private Vector3 aimPoint;
+
+
 
     private  CharacterController characterController;
     private NetworkActor networkActor;
@@ -25,7 +28,7 @@ public class ActorActionManager : MonoBehaviour {
         networkActor=GetComponent<NetworkActor>();
         aimIK = GetComponent<AimIK>();
         animator = GetComponent<Animator>();
-
+        animator.applyRootMotion = false;
 
         lastPosition = transform.position;
 
@@ -65,7 +68,7 @@ public class ActorActionManager : MonoBehaviour {
 
     private void ControlMovement()
     {
-        float moveSpeed = 0.5f;
+        float moveSpeed = 3.2f;
 
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -76,12 +79,17 @@ public class ActorActionManager : MonoBehaviour {
         float finalVertical = Mathf.Sin(angle * Mathf.PI / 180) * horizontal + Mathf.Cos(angle * Mathf.PI / 180) * vertical;
 
         //Debug.Log("sita:"+sita+"       "+ Mathf.Cos(sita) + "," + Mathf.Sin(sita));
-
         Vector3 moveDelta = new Vector3(finalHorizontal, 0, finalVertical);
-        moveDelta = moveDelta * moveSpeed;
 
+        moveDelta = moveDelta.normalized * moveSpeed*Time.deltaTime;
+        Debug.Log(moveDelta.x/Time.deltaTime + "  " + moveDelta.z/Time.deltaTime);
         characterController.Move(moveDelta);
+
+
+       
     }
+
+
 
     
 
@@ -91,20 +99,14 @@ public class ActorActionManager : MonoBehaviour {
         RaycastHit hitInfo;
         if(Physics.Raycast(ray,out hitInfo))
         {
-            Vector3 temp = hitInfo.point - transform.position;
-            temp.y = 0;
-            Quaternion targetDirection = Quaternion.LookRotation(temp);
+            aimPoint = hitInfo.point;//DYX_TODO 优化瞄准点计算及网络同步
+            Vector3 targetDirect = hitInfo.point - transform.position;
+            targetDirect.y = 0;
+            Quaternion targetDirection = Quaternion.LookRotation(targetDirect);
             float horizontalAngle= Quaternion.Angle( transform.rotation, targetDirection);
-
-
-            if (Vector3.Cross(transform.forward, temp.normalized).y < 0)
-                horizontalAngle = -horizontalAngle;
-
-            animator.SetFloat("HorizontalAngle", horizontalAngle);
-
+            characterController.transform.rotation = Quaternion.Lerp(transform.rotation, targetDirection, 0.1f);
 
             
-            //characterController.transform.rotation = Quaternion.Lerp(characterController.transform.rotation, targetDirection,0.1f) ;
         }
 
     }
@@ -135,8 +137,9 @@ public class ActorActionManager : MonoBehaviour {
 
     #endregion
 
- #region RemoteUpdate
+    #region RemoteUpdate
 
+    private Vector3 lastPosition;
     private void CalculateSpeed()
     {
         Vector3 velocity = transform.position - lastPosition;
@@ -147,5 +150,11 @@ public class ActorActionManager : MonoBehaviour {
     }
 
 #endregion
+
+
+    public Vector3 GetAimPoint()
+    {
+        return aimPoint;
+    }
 
 }
