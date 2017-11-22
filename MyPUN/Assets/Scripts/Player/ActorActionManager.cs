@@ -60,8 +60,10 @@ public class ActorActionManager : Photon.MonoBehaviour,IPunObservable{
 
     private void LateUpdate()
     {
-        if(controllable)    
+        if (controllable)
             ControlAim();
+        else
+            UpdateAim();
     }
 
     #region OwnerController
@@ -124,6 +126,12 @@ public class ActorActionManager : Photon.MonoBehaviour,IPunObservable{
 
 
         aimIK.solver.IKPosition = Vector3.Lerp(lastAimPoint, hitInfo.point,0.2f);
+        lastAimPoint = aimIK.solver.IKPosition;
+    }
+
+    private void UpdateAim()
+    {
+        aimIK.solver.IKPosition = Vector3.Lerp(lastAimPoint, aimPoint, 0.2f);
         lastAimPoint = aimIK.solver.IKPosition;
     }
 

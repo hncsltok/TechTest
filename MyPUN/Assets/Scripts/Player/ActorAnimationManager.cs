@@ -15,6 +15,8 @@ public class ActorAnimationManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!GetComponent<PhotonView>().isMine)
+            return;
         UpdateMovementAnimation();
         UpdateRotationAnimation();
     }
