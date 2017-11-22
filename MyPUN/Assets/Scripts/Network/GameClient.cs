@@ -48,7 +48,7 @@ public class GameClient : Photon.MonoBehaviour {
     private void ReceiveSpwanActor()
     {
         spawnPoint= GameObject.Find("SpwanPoint").transform;//找到出生点；如果没有加载完成场景，则可能找不到
-        PhotonNetwork.Instantiate("Actor", spawnPoint.position, spawnPoint.rotation,0);
+        PhotonNetwork.Instantiate("Character", spawnPoint.position, spawnPoint.rotation,0);
 
         Logger.Write("Spawn a actor");
     }

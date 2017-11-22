@@ -5,7 +5,7 @@ using UnityEngine;
 using RootMotion.FinalIK;
 
 [RequireComponent(typeof( CharacterController))]
-public class ActorActionManager : MonoBehaviour {
+public class ActorActionManager : Photon.MonoBehaviour,IPunObservable{
 
     public bool offlineMode;
 
@@ -157,4 +157,16 @@ public class ActorActionManager : MonoBehaviour {
         return aimPoint;
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.isWriting)
+        {
+            stream.SendNext(aimPoint);
+
+        }
+        else
+        {
+            aimPoint = (Vector3)stream.ReceiveNext();
+        }
+    }
 }
